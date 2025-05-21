@@ -1,0 +1,102 @@
+.scholarship-card {
+  background-color: var(--card-color);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+}
+
+.scholarship-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.scholarship-card-header {
+  margin-bottom: var(--spacing-3);
+}
+
+.scholarship-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-1);
+}
+
+.scholarship-provider {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.scholarship-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.scholarship-amount, 
+.scholarship-deadline {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.scholarship-deadline.urgent {
+  color: var(--warning-color);
+}
+
+.scholarship-description {
+  margin-bottom: var(--spacing-3);
+  color: var(--text-primary);
+  line-height: 1.5;
+}
+
+.scholarship-requirements {
+  margin-bottom: var(--spacing-3);
+  padding: var(--spacing-3);
+  background-color: rgba(30, 136, 229, 0.05);
+  border-radius: var(--border-radius-sm);
+}
+
+.scholarship-requirements h4 {
+  font-weight: 600;
+  margin-bottom: var(--spacing-2);
+  color: var(--text-primary);
+}
+
+.scholarship-requirements ul {
+  padding-left: var(--spacing-4);
+}
+
+.scholarship-requirements li {
+  margin-bottom: var(--spacing-1);
+  color: var(--text-secondary);
+}
+
+.scholarship-status {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-3);
+}
+
+.scholarship-actions {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+/* Animation for new scholarships */
+@keyframes highlightNew {
+  0% { border-left: 3px solid transparent; }
+  50% { border-left: 3px solid var(--primary-blue); }
+  100% { border-left: 3px solid transparent; }
+}
+
+.scholarship-card.new {
+  animation: highlightNew 2s ease-in-out;
+}

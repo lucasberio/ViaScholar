@@ -1,28 +1,25 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react'
 import './App.css' 
-import ScholarshipCard, { Scholarship } from '../ui/ScholarshipCard';
+import { Dashboard } from './pages/Dashboard';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [activePage, setActivePage] = useState('Dashboard');
+
+  const renderPage = () => {
+    switch (activePage) {
+      case 'Dashboard':
+        console.log('Rendering Dashboard');
+        return <Dashboard />;
+      default:
+        return <div>Page not found</div>;
+    }
+  };
 
   return (
-    <>
-      <div className="scholarship-entry">
-            <ScholarshipCard
-              key={scholarship.id}
-              scholarship={scholarship}
-              onSave={handleSaveScholarship}
-              onApply={handleApplyScholarship}
-            />
-
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main className="main-content">
+      {renderPage()}
+    </main>
+  );
 }
 
-export default App
+export default App;
