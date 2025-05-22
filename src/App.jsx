@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './App.css' 
-import { Dashboard } from './pages/Dashboard';
+import { Dashboard } from './pages/Dashboard'
+import Navigation from './components/Navigation'
+import { Sidebar } from 'lucide-react';
 
 function App() {
   const [activePage, setActivePage] = useState('Dashboard');
@@ -9,16 +11,25 @@ function App() {
     switch (activePage) {
       case 'Dashboard':
         console.log('Rendering Dashboard');
-        return <Dashboard />;
+        return (
+            <>
+            <Dashboard />
+            </>
+        );
       default:
+                console.log(' oopss');
+
         return <div>Page not found</div>;
     }
   };
 
   return (
-    <main className="main-content">
+          <div className="app-content">
+      <Navigation activePage={activePage} setActivePage={setActivePage} />
+      <main className="main-content">
       {renderPage()}
     </main>
+    </div>
   );
 }
 

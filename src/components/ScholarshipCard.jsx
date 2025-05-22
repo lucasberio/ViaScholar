@@ -40,7 +40,7 @@ export const ScholarshipCard = ({
   const days = daysRemaining();
   const isUrgent = days <= 7 && days > 0;
 
-  return (
+  return ( // where our html starts
     <div className="scholarship-card">
       <div className="scholarship-card-header">
         <h3 className="scholarship-title">{title}</h3>
