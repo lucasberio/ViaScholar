@@ -14,6 +14,9 @@ function Navigation() {
                         <li className = "list-item">
                             <a href = "#" className = "nav-link">Applied Scholarships</a>
                         </li>
+                        <li className = "list-item">
+                            <a href = "#" className = "nav-link">My Profile</a>
+                        </li>
                     </ul>
                 </nav>
             </aside>

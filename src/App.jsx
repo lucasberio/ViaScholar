@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import './App.css' 
-import { Dashboard } from './pages/Dashboard'
+import './App.css'
+import {Dashboard} from './pages/Dashboard'
 import Navigation from './components/Navigation'
-import { Sidebar } from 'lucide-react';
+import {Sidebar} from 'lucide-react'
+import MyProfile from './pages/MyProfile'
 
 function App() {
   const [activePage, setActivePage] = useState('Dashboard');
@@ -13,7 +14,7 @@ function App() {
         console.log('Rendering Dashboard');
         return (
             <>
-            <Dashboard />
+            <MyProfile />
             </>
         );
       default:
