@@ -4,6 +4,7 @@ import {Dashboard} from './pages/Dashboard'
 import { Navigation } from './components/Navigation'
 import {Sidebar} from 'lucide-react'
 import MyProfile from './pages/MyProfile'
+import SavedScholarships from './pages/SavedScholarships'
 
 function App() {
   const [activePage, setActivePage] = useState('Dashboard');
@@ -16,6 +17,9 @@ function App() {
       case 'MyProfile':
         console.log('Rendering MyProfile');
         return <MyProfile />;
+      case 'SavedScholarships':
+        console.log('Rendering MyProfile');
+        return <SavedScholarships />;
 
       default:
         console.log(' oopss');

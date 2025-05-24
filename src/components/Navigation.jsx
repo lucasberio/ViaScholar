@@ -14,6 +14,7 @@ export const Navigation = ({ activePage, setActivePage}) => {
     const navItems = [
         { id: 'Dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'MyProfile', label: 'My Profile', icon: <User size={20} /> },
+        { id: 'SavedScholarships', label: 'Saved Scholarships', icon: <BookmarkCheck size={20} /> },
     ];   
 
   return (
