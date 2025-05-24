@@ -1,26 +1,42 @@
 import './Navigation.css';
+import React from 'react';
+import { 
+  LayoutDashboard, 
+  User, 
+  BookmarkCheck, 
+  ClipboardCheck, 
+  Calendar, 
+  MessageSquare 
+} from 'lucide-react';
 
-function Navigation() {
-    return (
-            <aside className = "sidebar">
-                <nav className = "navbar">
-                    <ul className = "nav-list">
-                        <li className = "list-item">
-                            <a href = "#" className = "nav-link">Dashboard</a>
-                        </li>
-                        <li className = "list-item">
-                            <a href = "#" className = "nav-link">Saved Scholarships</a>
-                        </li>
-                        <li className = "list-item">
-                            <a href = "#" className = "nav-link">Applied Scholarships</a>
-                        </li>
-                        <li className = "list-item">
-                            <a href = "#" className = "nav-link">My Profile</a>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
-    );
-}
 
-export default Navigation
+export const Navigation = ({ activePage, setActivePage}) => {
+    const navItems = [
+        { id: 'Dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
+        { id: 'MyProfile', label: 'My Profile', icon: <User size={20} /> },
+    ];   
+
+  return (
+    <aside className="navigation">
+      <nav className="sidebar-nav">
+        <ul className="nav-list">
+          {navItems.map((item) => (
+            <li key={item.id} className="nav-item">
+              <button
+                className={`nav-link ${activePage === item.id ? 'active' : ''}`}
+                onClick={() => setActivePage(item.id)}
+              >
+                <span className="nav-icon">{item.icon}</span>
+                <span className="nav-label">{item.label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </aside>
+  );
+};
+
+
+
+
