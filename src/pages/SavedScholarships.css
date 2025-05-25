@@ -1,1 +1,92 @@
+.saved-scholarships.page {
+  padding: var(--spacing-5);
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
 
+/* icon, title, and count */
+.saved-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.saved-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.saved-count {
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--text-secondary);
+  background-color: var(--card-color);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* saved controls */
+
+.saved-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--card-color);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-bar .icon {
+  margin-right: var(--spacing-2);
+}
+
+.search-bar input {
+  border: 0;
+  outline: 0;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.filter-dropdown {
+  display: flex;
+  align-items: center;
+  background-color: var(--card-color);
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-dropdown .icon {
+  margin-right: var(--spacing-2);
+}
+
+.filter-dropdown select {
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: var(--text-primary);
+  background: transparent;
+  cursor: pointer;
+}
+
+/* Scholarship cards list */
+.scholarships-list {
+  /* list-items */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-4);
+}
