@@ -1,10 +1,84 @@
+import { useState } from 'react';
 import './MyProfile.css';
 import { User, School, GraduationCap, Award, Building, Save } from 'lucide-react';
 
-function MyProfile() {
+export const MyProfile = () => {
+
+    const [profile, setProfile] = useState({
+        firstName: 'John',
+        lastName: 'Doe',
+        email: 'john.doe@gmail.com',
+        school: 'University of Technology',
+        major: 'Computer Science',
+        minor: 'Business Administration',
+        gpa: '3.8',
+        gradYear: '2026',
+        awards: 'Dean\'s List (2023, 2024)',
+        extracurriculars: 'Robotics Club, Debate Team'
+    });
+
+    const [editing, setEditing] = useState(false);
+    const [formData, setFormData] = useState({ ...profile});
+
+    const handleChange = (e) => {
+        const {name, value} = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setProfile({ ...formData});
+        setEditing(false);
+        // save to chrome storage here
+    }
+
     return (
         <div className='my-profile'>
-            <h1>My Profile</h1>
+            <div className='profile-header'>
+                <h2 className='section-heading'><User size = {20} />My Profile</h2>
+                {!editing && (
+                    <button className="btn btn-secondary" onClick={() => setEditing(true)}>
+                        Edit Profile
+                        </button>
+                    )}
+                {editing && (
+                    <form className="profile-edit-form" onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label htmlFor="firstName">First Name</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="lastName">Last Name</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary">Save Changes</button>
+                    </form>
+                )}
             <div className="personal-information">
                 <h3 className="profile-section-title">Personal Information</h3>
                 <div className="profile-info-item">
@@ -23,7 +97,7 @@ function MyProfile() {
                 </div>
                 </div>
         </div>
-
+        </div>
 
             <div className="personal-information">
                 <h3 className="profile-section-title">Academic Information</h3>
@@ -81,6 +155,4 @@ function MyProfile() {
         
 
     );
-}
-
-export default MyProfile;
+};

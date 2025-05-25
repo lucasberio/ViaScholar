@@ -3,7 +3,7 @@ import './App.css'
 import {Dashboard} from './pages/Dashboard'
 import { Navigation } from './components/Navigation'
 import {Sidebar} from 'lucide-react'
-import MyProfile from './pages/MyProfile'
+import { MyProfile } from './pages/MyProfile'
 import SavedScholarships from './pages/SavedScholarships'
 
 function App() {
