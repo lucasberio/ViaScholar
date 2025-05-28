@@ -23,8 +23,20 @@ export default function EssayFeedback() {
   };
 
   // get ai feedback somehow
-  const requestFeedback = () => {
+  const requestFeedback = async () => {
     console.log('Ask AI for feedback on:', { prompt, essay });
+    const res = await fetch('http://localhost:5000/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ essay }),
+    });
+
+  const data = await res.json();
+  console.log('AI feedback response:', data.feedback);
+  return data.feedback;
+
   };
 
   // get word count
