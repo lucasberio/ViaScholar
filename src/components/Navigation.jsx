@@ -15,6 +15,7 @@ export const Navigation = ({ activePage, setActivePage}) => {
         { id: 'Dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
         { id: 'MyProfile', label: 'My Profile', icon: <User size={20} /> },
         { id: 'SavedScholarships', label: 'Saved Scholarships', icon: <BookmarkCheck size={20} /> },
+        { id: 'AppliedScholarships', label: 'Applied Scholarships', icon: <ClipboardCheck size={20} /> },
         { id: 'EssayFeedback', label: 'Essay Feedback', icon: <MessageSquare size={20} /> },
     ];   
 

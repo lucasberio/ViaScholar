@@ -5,6 +5,7 @@ import { Navigation } from './components/Navigation'
 import {Sidebar} from 'lucide-react'
 import { MyProfile } from './pages/MyProfile'
 import SavedScholarships from './pages/SavedScholarships'
+import AppliedScholarships from './pages/AppliedScholarships'
 import EssayFeedback from './pages/EssayFeedback'
 
 function App() {
@@ -19,8 +20,11 @@ function App() {
         console.log('Rendering MyProfile');
         return <MyProfile />;
       case 'SavedScholarships':
-        console.log('Rendering MyProfile');
+        console.log('Rendering SavedScholarships');
         return <SavedScholarships />;
+      case 'AppliedScholarships':
+        console.log('Rendering AppliedScholarships');
+        return <AppliedScholarships />;
       case 'EssayFeedback':
         console.log('Rendering EssayFeedback');
         return <EssayFeedback />;
