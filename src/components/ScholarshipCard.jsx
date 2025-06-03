@@ -1,6 +1,8 @@
-import React from 'react';
-import { Calendar, DollarSign, BookmarkPlus, CheckCircle, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Calendar, DollarSign, BookmarkPlus, CheckCircle, Clock, CalendarPlus } from 'lucide-react';
+import { saveToStorage, getFromStorage } from '../../utils/storage';
 import './ScholarshipCard.css';
+
 
 export const ScholarshipCard = ({ 
   id, 
@@ -14,6 +16,20 @@ export const ScholarshipCard = ({
   onSave,
   onApply
 }) => {
+  const [isSaved, setIsSaved] = useState(false);
+  const [isApplied, setIsApplied] = useState(false);
+
+  useEffect(() => {
+    // Load saved state from storage
+    const loadSavedState = async () => {
+      const savedScholarships = await getFromStorage('savedScholarships') || [];
+      const appliedScholarships = await getFromStorage('appliedScholarships') || [];
+      setIsSaved(savedScholarships.includes(id));
+      setIsApplied(appliedScholarships.includes(id));
+    };
+    loadSavedState();
+  }, [id]);
+
   // Format amount as currency
   const formattedAmount = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -39,6 +55,25 @@ export const ScholarshipCard = ({
 
   const days = daysRemaining();
   const isUrgent = days <= 7 && days > 0;
+
+
+    const handleSave = async () => {
+
+    const savedScholarships = await getFromStorage('savedScholarships') || [];
+    if (!isSaved) {
+      const updatedSaved = [...savedScholarships, id];
+      await saveToStorage('savedScholarships', updatedSaved);
+      setIsSaved(true);
+      if (onSave) onSave(id);
+      console.log(`Scholarship ${id} saved.`);
+    } else {
+      const updatedSaved = savedScholarships.filter(scholarshipId => scholarshipId !== id);
+      await saveToStorage('savedScholarships', updatedSaved);
+      setIsSaved(false);
+      console.log(`Scholarship ${id} saved.`);
+    }
+  };
+
 
   return ( // where our html starts
     <div className="scholarship-card">
@@ -84,7 +119,7 @@ export const ScholarshipCard = ({
       
       <div className="scholarship-status">
         {status === 'saved' && (
-          <span className="badge badge-blue">
+          <span className="badge badge-blue" onClick={console.log(`DEBUG ScholarshipCard`)}>
             <BookmarkPlus size={14} />
             Saved
           </span>
@@ -105,7 +140,7 @@ export const ScholarshipCard = ({
       
       <div className="scholarship-actions">
         {!status || status !== 'saved' ? (
-          <button className="btn btn-secondary" onClick={() => onSave && onSave(id)}>
+          <button className="btn btn-secondary" onClick={handleSave}>
             <BookmarkPlus size={16} />
             Save
           </button>
@@ -119,8 +154,9 @@ export const ScholarshipCard = ({
         ) : null}
 
          {!status || status !== 'applied' ? (
-          <button className="btn btn-primary" onClick={() => onApply && onApply(id)}>
-            Add To Calendar
+          <button className="btn-cal" onClick={() => onApply && onApply(id)}>
+            <CalendarPlus size={16} />
+            Calendar
           </button>
         ) : null}
       </div>

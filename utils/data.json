@@ -1,3 +1,4 @@
+[
 {
   "id": 1,
   "name": "Abrazo/Mitchard Birthmother Scholarship Fund",
@@ -7,4 +8,16 @@
   "deadline": "February 24",
   "description": "Requirements: Accounting, Business, Transportation, and Management",
   "requirements": ["Available for all areas of study"]
+},
+
+{
+  "id": 2,
+  "name": "MLK Foundation Scholarship",
+  "provider": "MLK Foundation Scholars",
+  "amount": "5000",
+
+  "deadline": "February 24",
+  "description": "Requirements: Accounting, Business, Transportation, and Management",
+  "requirements": ["Available for all areas of study"]
 }
+]

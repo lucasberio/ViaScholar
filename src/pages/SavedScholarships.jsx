@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { ScholarshipCard } from '../components/ScholarshipCard';    // using ScholarshipCard component?
+import { ScholarshipCard} from '../components/ScholarshipCard';    // using ScholarshipCard component?
 import { BookmarkCheck, Search, Filter } from 'lucide-react';   // for the icons
 import './SavedScholarships.css';
 
@@ -22,7 +22,7 @@ useEffect(() => {
   fetch('../utils/data.json')
     .then(res => res.json())
     .then(data => {
-      setSavedScholarships([data]);
+      setSavedScholarships(data);
     })
     .catch(err => {
       console.error('Failed to load scholarships:', err);
@@ -102,8 +102,6 @@ const filtered = savedScholarships
               key={sch.id}
               {...sch}
               // add handlers...
-              onSave={() => { /* do nothing, already saved */}}
-              onApply={() => { /* handler stuff */ }}
             />
           ))
         }

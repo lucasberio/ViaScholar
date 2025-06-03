@@ -63,12 +63,10 @@ export const Dashboard = () => {
 
   const handleSaveScholarship = (id) => {
     console.log(`Saving scholarship with id: ${id}`);
-    // Would make API call to Airtable in real implementation
   };
 
   const handleApplyScholarship = (id) => {
     console.log(`Applying to scholarship with id: ${id}`);
-    // Would make API call to Airtable in real implementation
   };
 
   return (
