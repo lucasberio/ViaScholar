@@ -117,6 +117,12 @@ export const ScholarshipCard = ({
             Apply
           </button>
         ) : null}
+
+         {!status || status !== 'applied' ? (
+          <button className="btn btn-primary" onClick={() => onApply && onApply(id)}>
+            Add To Calendar
+          </button>
+        ) : null}
       </div>
     </div>
   );

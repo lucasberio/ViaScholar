@@ -53,7 +53,6 @@ Name: Alfred W. Negley Scholarship Fund
 Provider: EPIC Scholars Application
 Amount: $2,000 (subject to change)
 Due Date: February 24
-Description: [as i can see, none in the airtable, may need to add ourselves]
 Requirements:
 	Accounting, Business, Transportation, and Management
 	undefined

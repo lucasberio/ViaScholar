@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { ScholarshipCard } from '../components/ScholarshipCard';    // using ScholarshipCard component?
 import { BookmarkCheck, Search, Filter } from 'lucide-react';   // for the icons
 import './SavedScholarships.css';
+
+
 export default function SavedScholarships() {
+
 
 // state for storing the list of saved scholarships and a setter to update it
 const [savedScholarships, setSavedScholarships] = useState([]);
@@ -16,54 +19,42 @@ const [filter, setFilter] = useState('all');
 
 // useEffect hook, setup code
 useEffect(() => {
-    // dummy data using necessary fields from ScholarshipCard component
-    setSavedScholarships([
-      {
-        id: '1',                              
-        title: 'Future Tech Leaders Scholarship',
-        provider: 'TechFoundation Inc.',
-        amount: 4000,                         
-        deadline: '2025-06-30', 
-        status: 'saved',               
-        description: 'For CS/Engineering students.',
-        requirements: ['Min. GPA: 3.5'],      
-      },
-      {
-        id: '2',
-        title: 'Women in STEM Grant',
-        provider: "Women's Education Fund",
-        amount: 7500,
-        deadline: '2025-05-15',
-        description: 'Supporting women in STEM.',
-        requirements: ['Female student'],
-        status: 'saved'
-      }
-    ]);
+  fetch('../utils/data.json')
+    .then(res => res.json())
+    .then(data => {
+      setSavedScholarships([data]);
+    })
+    .catch(err => {
+      console.error('Failed to load scholarships:', err);
+    });
   }, []); // keep array empty, just ran initially
 
+console.log('savedScholarships:', savedScholarships);
+console.log('Type:', typeof savedScholarships);
+
+
   // filtering logic
-  const filtered = savedScholarships
-    .filter(sch =>
-      // keep the scholarshops that fall under the filter
-      sch.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    .filter(sch => {
-      if (filter === 'all') {
-        return true;    // return everything 
-      }
-      if (filter === 'deadline-soon') {
-        const now = new Date(); // Date gets the current date and time
-        const deadlineDate = new Date(sch.deadline);
-        const diffMs = deadlineDate - now;  // in milliseconds           
-        const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-        // include the items within a week
-        return diffDays > 0 && diffDays <= 7;
-      }
-      if (filter === 'high-amount') {
-        return sch.amount >= 5000; // hardcoding 5K as high amount (maybe add feature to specify the amount)
-      }
-      return true;
-    });
+const filtered = savedScholarships
+  .filter(sch =>
+    sch.name && sch.name.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+  .filter(sch => {
+    if (filter === 'all') return true;
+    if (filter === 'deadline-soon') {
+      const now = new Date();
+      const deadlineDate = new Date(sch.dueDate); // assuming valid date format
+      const diffMs = deadlineDate - now;
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+      return diffDays > 0 && diffDays <= 7;
+    }
+    if (filter === 'high-amount') {
+      // assuming amounts is an array of { type, value }
+      const maxAmount = Math.max(...(sch.amounts?.map(a => a.value) || [0]));
+      return maxAmount >= 5000;
+    }
+    return true;
+  });
+
 
   return (
     // top-level container for the page
