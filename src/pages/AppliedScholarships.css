@@ -1,6 +1,4 @@
-/* src/pages/AppliedScholarships.css */
 
-/* Top-level container for the Applied Scholarships page */
 .applied.page {
   padding: var(--spacing-4);
   display: flex;
@@ -9,7 +7,6 @@
   background-color: var(--background-color);
 }
 
-/* Header section: icon, title, and count */
 .applied-header {
   display: flex;
   align-items: center;
