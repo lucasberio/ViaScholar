@@ -5,41 +5,38 @@ import {
   User, 
   BookmarkCheck, 
   ClipboardCheck, 
-  Calendar, 
   MessageSquare 
 } from 'lucide-react';
 
-
-export const Navigation = ({ activePage, setActivePage}) => {
-    const navItems = [
-        { id: 'Dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-        { id: 'MyProfile', label: 'My Profile', icon: <User size={20} /> },
-        { id: 'SavedScholarships', label: 'Saved Scholarships', icon: <BookmarkCheck size={20} /> },
-        { id: 'AppliedScholarships', label: 'Applied Scholarships', icon: <ClipboardCheck size={20} /> },
-        { id: 'EssayFeedback', label: 'Essay Feedback', icon: <MessageSquare size={20} /> },
-    ];   
+export const Navigation = ({ activePage, setActivePage }) => {
+  const navItems = [
+    { id: 'Dashboard', label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
+    { id: 'MyProfile', label: 'Profile', icon: <User size={20} /> },
+    { id: 'SavedScholarships', label: 'Saved', icon: <BookmarkCheck size={20} /> },
+    { id: 'AppliedScholarships', label: 'Applied', icon: <ClipboardCheck size={20} /> },
+    { id: 'EssayFeedback', label: 'Feedback', icon: <MessageSquare size={20} /> },
+  ];   
 
   return (
-    <aside className="navigation">
-      <nav className="sidebar-nav">
-        <ul className="nav-list">
-          {navItems.map((item) => (
-            <li key={item.id} className="nav-item">
-              <button
-                className={`nav-link ${activePage === item.id ? 'active' : ''}`}
-                onClick={() => setActivePage(item.id)}
-              >
-                <span className="nav-icon">{item.icon}</span>
-                <span className="nav-label">{item.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </aside>
+    <header className="navigation">
+      <div className="nav-container">
+        <h1 className="nav-logo">ScholarshipTracker</h1>
+        <nav className="sidebar-nav">
+          <ul className="nav-list">
+            {navItems.map((item) => (
+              <li key={item.id} className="nav-item">
+                <button
+                  className={`nav-link ${activePage === item.id ? 'active' : ''}`}
+                  onClick={() => setActivePage(item.id)}
+                >
+                  <span className="nav-icon">{item.icon}</span>
+                  <span className="nav-label">{item.label}</span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
   );
 };
-
-
-
-
