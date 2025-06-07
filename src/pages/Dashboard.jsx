@@ -3,128 +3,111 @@ import { AlertCircle, TrendingUp, Sparkles, Search } from 'lucide-react';
 import { ScholarshipCard } from '../components/ScholarshipCard';
 import './Dashboard.css';
 
-
 export const Dashboard = () => {
-  // Mock data - would be fetched from Airtable in a real implementation
+  const [savedScholarships, setSavedScholarships] = useState([]);
   const [recommendedScholarships, setRecommendedScholarships] = useState([]);
   const [upcomingDeadlines, setUpcomingDeadlines] = useState([]);
-  const [stats, setStats] = useState({
-    saved: 0,
-    applied: 0,
-    matches: 0
-  });
+  const [stats, setStats] = useState({ saved: 0, applied: 0, matches: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call
-    setTimeout(() => {
-      setRecommendedScholarships([
-        {
-          id: '1',
-          title: 'Future Tech Leaders Scholarship',
-          provider: 'TechFoundation Inc.',
-          amount: 5000,
-          deadline: '2025-06-30',
-          description: 'For students pursuing degrees in Computer Science, Engineering, or related fields.',
-          requirements: ['Min. GPA: 3.5', 'Major in CS/Engineering', 'U.S. Citizen']
-        },
-        {
-          id: '2',
-          title: 'Women in STEM Grant',
-          provider: 'Women\'s Education Fund',
-          amount: 7500,
-          deadline: '2025-05-15',
-          description: 'Supporting women pursuing careers in Science, Technology, Engineering, and Mathematics.',
-          requirements: ['Female student', 'STEM Major', 'Min. GPA: 3.0']
-        }
-      ]);
-      
-      setUpcomingDeadlines([
-        {
-          id: '3',
-          title: 'Community Leadership Award',
-          provider: 'Local Community Foundation',
-          amount: 2000,
-          deadline: '2025-04-10',
-          status: 'deadline-soon',
-          description: 'For students with outstanding community service records.'
-        }
-      ]);
-      
-      setStats({
-        saved: 12,
-        applied: 5,
-        matches: 24
-      });
-      
-      setLoading(false);
-    }, 1000);
+    // Load initial data
+    const loadData = async () => {
+      try {
+        // Fetch scholarships data
+        const response = await fetch('../utils/data.json');
+        const data = await response.json();
+        
+        // Load saved scholarships from storage
+        const saved = await getFromStorage('savedScholarships') || [];
+        const applied = await getFromStorage('appliedScholarships') || [];
+        
+        setRecommendedScholarships(data);
+        setSavedScholarships(saved);
+        
+        // Set upcoming deadlines (filter from all scholarships)
+        const upcoming = data.filter(sch => {
+          const deadlineDate = new Date(sch.deadline);
+          const today = new Date();
+          const diffDays = Math.ceil((deadlineDate - today) / (1000 * 60 * 60 * 24));
+          return diffDays > 0 && diffDays <= 30; // Show deadlines within 30 days
+        });
+        setUpcomingDeadlines(upcoming);
+        
+        setStats({
+          saved: saved.length,
+          applied: applied.length,
+          matches: data.length // Or your matching logic
+        });
+        
+        setLoading(false);
+      } catch (err) {
+        console.error('Failed to load data:', err);
+        setLoading(false);
+      }
+    };
+    
+    loadData();
   }, []);
 
-  const handleSaveScholarship = (id) => {
-    console.log(`Saving scholarship with id: ${id}`);
+  // Handle when a scholarship is saved/unsaved
+  const handleSaveScholarship = async (id) => {
+    try {
+      // Get current saved scholarships
+      const saved = await getFromStorage('savedScholarships') || [];
+      const isCurrentlySaved = saved.includes(id);
+      const updatedSaved = isCurrentlySaved
+        ? saved.filter(scholarshipId => scholarshipId !== id)
+        : [...saved, id];
+      
+      // Update local state immediately
+      setSavedScholarships(updatedSaved);
+      setRecommendedScholarships(prev => 
+        prev.map(sch => ({
+          ...sch,
+          isSaved: updatedSaved.includes(sch.id)
+        }))
+      );
+      setUpcomingDeadlines(prev => 
+        prev.map(sch => ({
+          ...sch,
+          isSaved: updatedSaved.includes(sch.id)
+        }))
+      );
+      
+      // Update stats
+      setStats(prev => ({ ...prev, saved: updatedSaved.length }));
+      
+      // Persist to storage
+      await saveToStorage('savedScholarships', updatedSaved);
+    } catch (error) {
+      console.error('Error updating saved scholarships:', error);
+    }
   };
 
-  const handleApplyScholarship = (id) => {
-    console.log(`Applying to scholarship with id: ${id}`);
+  const handleApplyScholarship = async (id) => {
+    try {
+      const applied = await getFromStorage('appliedScholarships') || [];
+      const updatedApplied = [...applied, id];
+      await saveToStorage('appliedScholarships', updatedApplied);
+      
+      // Update UI
+      setStats(prev => ({ ...prev, applied: updatedApplied.length }));
+      setRecommendedScholarships(prev => 
+        prev.map(sch => sch.id === id ? { ...sch, status: 'applied' } : sch)
+      );
+    } catch (error) {
+      console.error('Error applying to scholarship:', error);
+    }
   };
 
   return (
     <div className="dashboard fade-in">
-      <h2 className="section-heading">
-        <Sparkles size={20} />
-        Dashboard
-      </h2>
-
-      {/* Stats Cards */}
-      <div className="stats-container">
-        <div className="stat-card">
-          <div className="stat-icon saved">
-            <AlertCircle size={24} />
-          </div>
-          <div className="stat-info">
-            <div className="stat-label">Saved</div>
-            <div className="stat-value">{stats.saved}</div>
-          </div>
-        </div>
-        
-        <div className="stat-card">
-          <div className="stat-icon applied">
-            <TrendingUp size={24} />
-          </div>
-          <div className="stat-info">
-            <div className="stat-label">Applied</div>
-            <div className="stat-value">{stats.applied}</div>
-          </div>
-        </div>
-        
-        <div className="stat-card">
-          <div className="stat-icon matches">
-            <Sparkles size={24} />
-          </div>
-          <div className="stat-info">
-            <div className="stat-label">Matches</div>
-            <div className="stat-value">{stats.matches}</div>
-          </div>
-        </div>
-      </div>
-
-      {/* Search Bar */}
-      <div className="search-container">
-        <div className="search-bar">
-          <Search size={20} className="search-icon" />
-          <input 
-            type="text" 
-            placeholder="Search scholarships..." 
-            className="search-input" 
-          />
-        </div>
-      </div>
-
+      {/* ... rest of your JSX remains the same until the ScholarshipCard usage ... */}
+      
       {/* Recommended Scholarships */}
       <div className="dashboard-section">
         <h3 className="dashboard-section-title">Recommended For You</h3>
-        
         {loading ? (
           <div className="loading-indicator">Loading recommendations...</div>
         ) : (
@@ -133,6 +116,7 @@ export const Dashboard = () => {
               <ScholarshipCard 
                 key={scholarship.id}
                 {...scholarship}
+                isSaved={savedScholarships.includes(scholarship.id)}
                 onSave={handleSaveScholarship}
                 onApply={handleApplyScholarship}
               />
@@ -144,7 +128,6 @@ export const Dashboard = () => {
       {/* Upcoming Deadlines */}
       <div className="dashboard-section">
         <h3 className="dashboard-section-title">Upcoming Deadlines</h3>
-        
         {loading ? (
           <div className="loading-indicator">Loading deadlines...</div>
         ) : (
@@ -153,7 +136,8 @@ export const Dashboard = () => {
               <ScholarshipCard 
                 key={scholarship.id}
                 {...scholarship}
-                onSave={handleSaveScholarship}
+                isSaved={savedScholarships.includes(scholarship.id)}
+                onSave={(id) => handleSaveScholarship(id, savedScholarships.includes(id))}
                 onApply={handleApplyScholarship}
               />
             ))}
@@ -163,3 +147,25 @@ export const Dashboard = () => {
     </div>
   );
 };
+
+// Helper functions (you might want to move these to a separate utils file)
+async function getFromStorage(key) {
+  // For Chrome extension:
+  // return new Promise(resolve => {
+  //   chrome.storage.local.get([key], result => resolve(result[key]));
+  // });
+  
+  // For localStorage:
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : null;
+}
+
+async function saveToStorage(key, value) {
+  // For Chrome extension:
+  // return new Promise(resolve => {
+  //   chrome.storage.local.set({ [key]: value }, () => resolve());
+  // });
+  
+  // For localStorage:
+  localStorage.setItem(key, JSON.stringify(value));
+}

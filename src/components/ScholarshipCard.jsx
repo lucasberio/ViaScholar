@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, DollarSign, BookmarkPlus, CheckCircle, Clock, CalendarPlus } from 'lucide-react';
+import { Calendar, DollarSign, BookmarkPlus, CheckCircle, Clock, CalendarPlus, BookmarkMinus } from 'lucide-react';
 import { saveToStorage, getFromStorage } from '../../utils/storage';
 import './ScholarshipCard.css';
 
@@ -14,9 +14,8 @@ export const ScholarshipCard = ({
   description, 
   requirements,
   onSave,
-  onApply
+  isSaved,
 }) => {
-  const [isSaved, setIsSaved] = useState(false);
   const [isApplied, setIsApplied] = useState(false);
 
   useEffect(() => {
@@ -56,23 +55,14 @@ export const ScholarshipCard = ({
   const days = daysRemaining();
   const isUrgent = days <= 7 && days > 0;
 
-
-    const handleSave = async () => {
-
-    const savedScholarships = await getFromStorage('savedScholarships') || [];
-    if (!isSaved) {
-      const updatedSaved = [...savedScholarships, id];
-      await saveToStorage('savedScholarships', updatedSaved);
-      setIsSaved(true);
-      if (onSave) onSave(id);
-      console.log(`Scholarship ${id} saved.`);
-    } else {
-      const updatedSaved = savedScholarships.filter(scholarshipId => scholarshipId !== id);
-      await saveToStorage('savedScholarships', updatedSaved);
-      setIsSaved(false);
-      console.log(`Scholarship ${id} saved.`);
-    }
+  const handleSaveClick = () => {
+    if (onSave) onSave(id);
   };
+
+  const handleApplyClick = () => {
+    if (onApply) onApply(id);
+  };
+
 
 
   return ( // where our html starts
@@ -139,26 +129,34 @@ export const ScholarshipCard = ({
       </div>
       
       <div className="scholarship-actions">
-        {!status || status !== 'saved' ? (
-          <button className="btn btn-secondary" onClick={handleSave}>
-            <BookmarkPlus size={16} />
-            Save
-          </button>
-        ) : null}
+        <button 
+          className={`btn ${isSaved ? 'btn-saved' : 'btn-secondary'}`} 
+          onClick={handleSaveClick}
+        >
+          {isSaved ? (
+            <>
+              <BookmarkMinus size={16} />
+              Unsave
+            </>
+          ) : (
+            <>
+              <BookmarkPlus size={16} />
+              Save
+            </>
+          )}
+        </button>
         
-        {!status || status !== 'applied' ? (
-          <button className="btn btn-primary" onClick={() => onApply && onApply(id)}>
+        {status !== 'applied' && (
+          <button className="btn btn-primary" onClick={handleApplyClick}>
             <CheckCircle size={16} />
             Apply
           </button>
-        ) : null}
+        )}
 
-         {!status || status !== 'applied' ? (
-          <button className="btn-cal" onClick={() => onApply && onApply(id)}>
-            <CalendarPlus size={16} />
-            Calendar
-          </button>
-        ) : null}
+        <button className="btn-cal">
+          <CalendarPlus size={16} />
+          Calendar
+        </button>
       </div>
     </div>
   );

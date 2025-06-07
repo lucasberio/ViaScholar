@@ -1,63 +1,89 @@
-
 import React, { useState, useEffect } from 'react';
-import { ScholarshipCard} from '../components/ScholarshipCard';    // using ScholarshipCard component?
-import { BookmarkCheck, Search, Filter } from 'lucide-react';   // for the icons
+import { ScholarshipCard } from '../components/ScholarshipCard';
+import { BookmarkCheck, Search, Filter } from 'lucide-react';
 import './SavedScholarships.css';
 
-
 export default function SavedScholarships() {
+  const [allScholarships, setAllScholarships] = useState([]); // All available scholarships
+  const [savedScholarshipIds, setSavedScholarshipIds] = useState([]); // Just the saved IDs
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
 
+  // Load all scholarships and saved IDs
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        // Load all scholarships
+        const response = await fetch('../utils/data.json');
+        const data = await response.json();
+        setAllScholarships(data);
 
-// state for storing the list of saved scholarships and a setter to update it
-const [savedScholarships, setSavedScholarships] = useState([]);
+        // Load saved IDs
+        const saved = JSON.parse(localStorage.getItem('savedScholarships') || '[]');
+        setSavedScholarshipIds(saved);
+        
+        setLoading(false);
+      } catch (error) {
+        console.error('Error loading data:', error);
+        setLoading(false);
+      }
+    };
 
-// state for the search input's current value (initially an empty string) and setter to update it
-const [searchTerm, setSearchTerm] = useState('');
+    loadData();
 
-// state and update for the filter, initialized to 'all'
-const [filter, setFilter] = useState('all');
+    const handleStorageChange = (e) => {
+      if (e.key === 'savedScholarships') {
+        const saved = JSON.parse(e.newValue || '[]');
+        setSavedScholarshipIds(saved);
+      }
+    };
 
-// useEffect hook, setup code
-useEffect(() => {
-  fetch('../utils/data.json')
-    .then(res => res.json())
-    .then(data => {
-      setSavedScholarships(data);
-    })
-    .catch(err => {
-      console.error('Failed to load scholarships:', err);
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Get the actual saved scholarships by filtering allScholarships
+  const savedScholarships = allScholarships.filter(sch => 
+    savedScholarshipIds.includes(sch.id)
+  );
+
+  // Filtering logic
+  const filtered = savedScholarships
+    .filter(sch => 
+      sch.name && sch.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter(sch => {
+      if (filter === 'all') return true;
+      if (filter === 'deadline-soon') {
+        const now = new Date();
+        const deadlineDate = new Date(sch.dueDate);
+        const diffDays = Math.ceil((deadlineDate - now) / (1000 * 60 * 60 * 24));
+        return diffDays > 0 && diffDays <= 7;
+      }
+      if (filter === 'high-amount') {
+        const maxAmount = Math.max(...(sch.amounts?.map(a => a.value) || [0]));
+        return maxAmount >= 5000;
+      }
+      return true;
     });
-  }, []); // keep array empty, just ran initially
 
-console.log('savedScholarships:', savedScholarships);
-console.log('Type:', typeof savedScholarships);
-
-
-  // filtering logic
-const filtered = savedScholarships
-  .filter(sch =>
-    sch.name && sch.name.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-  .filter(sch => {
-    if (filter === 'all') return true;
-    if (filter === 'deadline-soon') {
-      const now = new Date();
-      const deadlineDate = new Date(sch.dueDate); // assuming valid date format
-      const diffMs = deadlineDate - now;
-      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
-      return diffDays > 0 && diffDays <= 7;
+  // Handle unsaving a scholarship
+  const handleUnsaveScholarship = (scholarshipId) => {
+    try {
+      const updatedIds = savedScholarshipIds.filter(id => id !== scholarshipId);
+      setSavedScholarshipIds(updatedIds);
+      localStorage.setItem('savedScholarships', JSON.stringify(updatedIds));
+    } catch (error) {
+      console.error('Error unsaving scholarship:', error);
     }
-    if (filter === 'high-amount') {
-      // assuming amounts is an array of { type, value }
-      const maxAmount = Math.max(...(sch.amounts?.map(a => a.value) || [0]));
-      return maxAmount >= 5000;
-    }
-    return true;
-  });
+  };
 
+  if (loading) {
+    return <div className="saved-scholarships page">Loading...</div>;
+  }
 
   return (
-    // top-level container for the page
     <div className="saved-scholarships page">
       <header className="saved-header">
         <BookmarkCheck size={20} />
@@ -67,7 +93,6 @@ const filtered = savedScholarships
         </span>
       </header>
 
-      {/* div for the control bars (filer & search) */}
       <div className="saved-controls">
         <div className="search-bar">
           <Search size={16} className="icon" />
@@ -87,24 +112,26 @@ const filtered = savedScholarships
           >
             <option value="all">All Scholarships</option>
             <option value="deadline-soon">Deadline Soon</option>
-            <option value ="high-amount">High Amount</option>
+            <option value="high-amount">High Amount</option>
           </select>
         </div>
       </div>
 
       <section className="scholarships-list">
-        {
-          // map each scholarship object to a ScholarshipCard component so they render with our given info
-          // key prop used by React for list re-rendering
-          // {...sch} spreads all object properties as individual props
+        {filtered.length > 0 ? (
           filtered.map(sch => (
             <ScholarshipCard
               key={sch.id}
               {...sch}
-              // add handlers...
+              isSaved={true}
+              onSave={() => handleUnsaveScholarship(sch.id)}
             />
           ))
-        }
+        ) : (
+          <div className="empty-state">
+            No saved scholarships found. Save some scholarships to see them here!
+          </div>
+        )}
       </section>
     </div>
   );
