@@ -119,3 +119,11 @@
 .btn-cal:hover {
   background-color: var(--primary-blue-dark);
 }
+
+.scholarship-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #e5e7eb;
+  color: #6b7280;
+  border-color: #d1d5db;
+}

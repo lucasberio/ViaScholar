@@ -77,10 +77,11 @@ export default function AppliedScholarships() {
             <ScholarshipCard
               key={sch.id}
               {...sch}
-              isSaved={false} // These are in applied view, not saved
+              isSaved={false}
               isApplied={true}
-              onApply={() => handleUnapply(sch.id)}
-              onSave={() => {}} // Disable save in this view
+              disableActions={true} // Add this prop
+              onApply={() => {}} // Empty function
+              onSave={() => {}} // Empty function
             />
           ))
         ) : (

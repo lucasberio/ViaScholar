@@ -87,23 +87,31 @@ export const Dashboard = () => {
 
   const handleApplyScholarship = async (id) => {
     try {
-      const applied = await getFromStorage('appliedScholarships') || [];
-      const updatedApplied = [...applied, id];
-      await saveToStorage('appliedScholarships', updatedApplied);
+      // Find the scholarship in either recommended or upcoming lists
+      const scholarship = recommendedScholarships.find(s => s.id === id) || 
+                         upcomingDeadlines.find(s => s.id === id);
       
-      // Update UI
-      setStats(prev => ({ ...prev, applied: updatedApplied.length }));
-      setRecommendedScholarships(prev => 
-        prev.map(sch => sch.id === id ? { ...sch, status: 'applied' } : sch)
-      );
+      if (scholarship && scholarship.applicationLink) {
+        // Open link in new tab
+        window.open(scholarship.applicationLink, '_blank', 'noopener,noreferrer');
+        
+        // Track that user has clicked apply
+        const applied = await getFromStorage('appliedScholarships') || [];
+        if (!applied.includes(id)) {
+          const updatedApplied = [...applied, id];
+          await saveToStorage('appliedScholarships', updatedApplied);
+          setStats(prev => ({ ...prev, applied: updatedApplied.length }));
+        }
+      } else {
+        console.warn('No application link found for scholarship:', id);
+      }
     } catch (error) {
-      console.error('Error applying to scholarship:', error);
+      console.error('Error handling scholarship application:', error);
     }
   };
 
   return (
     <div className="dashboard fade-in">
-      {/* ... rest of your JSX remains the same until the ScholarshipCard usage ... */}
       
       {/* Recommended Scholarships */}
       <div className="dashboard-section">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Calendar, DollarSign, BookmarkPlus, CheckCircle, Clock, CalendarPlus, BookmarkMinus } from 'lucide-react';
 import { saveToStorage, getFromStorage } from '../../utils/storage';
+import { addToGoogleCalendar } from '../utils/calendar';
 import './ScholarshipCard.css';
 
 
@@ -15,6 +16,8 @@ export const ScholarshipCard = ({
   requirements,
   onSave,
   isSaved,
+  onApply,
+  disableActions = false, // Add this prop with default value
 }) => {
   const [isApplied, setIsApplied] = useState(false);
 
@@ -27,6 +30,7 @@ export const ScholarshipCard = ({
       setIsApplied(appliedScholarships.includes(id));
     };
     loadSavedState();
+    
   }, [id]);
 
   // Format amount as currency
@@ -61,6 +65,14 @@ export const ScholarshipCard = ({
 
   const handleApplyClick = () => {
     if (onApply) onApply(id);
+  };
+
+  const handleAddToCalendar = () => {
+    addToGoogleCalendar(
+      provider,
+      formattedDeadline,
+      `Scholarship application deadline for ${provider}. Requirements: ${requirements ? requirements.join(', ') : 'N/A'}`
+    );
   };
 
 
@@ -132,6 +144,7 @@ export const ScholarshipCard = ({
         <button 
           className={`btn ${isSaved ? 'btn-saved' : 'btn-secondary'}`} 
           onClick={handleSaveClick}
+          disabled={disableActions}
         >
           {isSaved ? (
             <>
@@ -147,15 +160,19 @@ export const ScholarshipCard = ({
         </button>
         
         {status !== 'applied' && (
-          <button className="btn btn-primary" onClick={handleApplyClick}>
+          <button className="btn btn-primary" onClick={handleApplyClick} disabled={disableActions}>
             <CheckCircle size={16} />
             Apply
           </button>
         )}
 
-        <button className="btn-cal">
+        <button 
+          className="btn-cal" 
+          onClick={handleAddToCalendar}
+          disabled={disableActions}
+        >
           <CalendarPlus size={16} />
-          Calendar
+          Add to Calendar
         </button>
       </div>
     </div>
