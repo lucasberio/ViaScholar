@@ -2,45 +2,53 @@
   width: 100%;
   background-color: white;
   border-bottom: 1px solid var(--border-color);
-  position: fixed;  /* Change from sticky to fixed */
+  position: fixed;
   top: 0;
-  left: 0;  /* Add this to ensure full width alignment */
+  left: 0;
   z-index: 200;
-  padding: 0 var(--spacing-4);
 }
 
+/* Container for both brand and links */
 .nav-container {
+  display: flex;               
+  align-items: center;         
+  justify-content: space-between; 
+  padding: var(--spacing-2) var(--spacing-4);
+}
+
+/* Brand area (logo + title) */
+.nav-brand {
   display: flex;
-  flex-direction: column;  /* Change to column layout */
   align-items: center;
-  justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  min-height: 80px;  /* Increase height to accommodate both rows */
-  padding: var(--spacing-2) 0;
+  gap: var(--spacing-2);
+  margin-bottom: var(--spacing-2);
+}
+
+.nav-logo-icon {
+  width: 30px;
+  height: auto;
 }
 
 .nav-logo {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--primary-blue);
-  margin-bottom: var(--spacing-2);  /* Add space between logo and nav */
-  padding: var(--spacing-2) 0;
+  margin: 0;
 }
 
+/* Link bar */
 .sidebar-nav {
-  width: 100%;  /* Take full width */
+  width: 100%;
   display: flex;
-  justify-content: center;  /* Center the navigation items */
+  justify-content: center;
 }
 
 .nav-list {
   display: flex;
-  gap: var(--spacing-1);
+  gap: var(--spacing-4);
   list-style: none;
   margin: 0;
   padding: 0;
-  justify-content: center;  /* Center the nav items */
 }
 
 .nav-item {
@@ -50,6 +58,7 @@
 .nav-link {
   display: flex;
   align-items: center;
+  gap: var(--spacing-2);
   padding: var(--spacing-3) var(--spacing-4);
   font-family: var(--font-family);
   color: var(--text-secondary);
@@ -57,11 +66,9 @@
   font-weight: 500;
   font-size: 0.9rem;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  margin: var(--spacing-2) 0;
+  transition: all var(--transition-fast);
 }
 
 .nav-link:hover {
@@ -76,9 +83,7 @@
 }
 
 .nav-icon {
-  margin-right: var(--spacing-2);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-

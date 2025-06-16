@@ -7,6 +7,9 @@ import { MyProfile } from './pages/MyProfile'
 import SavedScholarships from './pages/SavedScholarships'
 import AppliedScholarships from './pages/AppliedScholarships'
 import EssayFeedback from './pages/EssayFeedback'
+import CustomScholarships from './pages/CustomScholarships'
+
+// scooter importing
 
 function App() {
   const [activePage, setActivePage] = useState('Dashboard');
@@ -28,6 +31,9 @@ function App() {
       case 'EssayFeedback':
         console.log('Rendering EssayFeedback');
         return <EssayFeedback />;
+      case 'CustomScholarships':
+        console.log('Rendering CustomScholarships');
+        return <CustomScholarships />;
 
       default:
         console.log(' oopss');
