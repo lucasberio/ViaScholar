@@ -13,6 +13,7 @@ export const ScholarshipCard = ({
   deadline, 
   status, 
   description, 
+  applicationLink,
   requirements,
   onSave,
   isSaved,
@@ -71,7 +72,7 @@ export const ScholarshipCard = ({
     addToGoogleCalendar(
       provider,
       formattedDeadline,
-      `Scholarship application deadline for ${provider}. Requirements: ${requirements ? requirements.join(', ') : 'N/A'}`
+      `Scholarship application deadline for ${provider}. Requirements: ${requirements ? requirements.join(', ') : 'N/A'}.\n\nApplication link: ${applicationLink}`
     );
   };
 
