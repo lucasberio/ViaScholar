@@ -1,21 +1,50 @@
 .scholarship-card {
-  background-color: var(--card-color);
-  border-radius: var(--border-radius-md);
-  box-shadow: var(--shadow-sm);
-  padding: var(--spacing-4);
-  margin-bottom: var(--spacing-4);
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
-  border: 1px solid var(--border-color);
-  overflow: hidden;
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.scholarship-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #FF6B35, #F7931E, #FFD23F);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+/* .scholarship-card:hover { DEPRECATED
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+} */
+
+.scholarship-card:hover::before {
+    transform: translateX(0);
 }
 
 .scholarship-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(214, 51, 132, 0.15);
+    border-left-color: #D63384;
 }
 
+
 .scholarship-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: var(--spacing-3);
+
 }
 
 .scholarship-title {
@@ -23,11 +52,19 @@
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: var(--spacing-1);
+
 }
 
 .scholarship-provider {
-  font-size: 14px;
-  color: var(--text-secondary);
+  /* font-size: 14px;
+  color: var(--text-secondary);  CHANGE BACK TO THIS ONCE WE FIX HE TITLE / PROVIDER ISSUE*/
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+  flex: 1;
+  margin-right: 8px;
+
 }
 
 .scholarship-details {
@@ -38,13 +75,22 @@
   border-bottom: 1px solid var(--border-color);
 }
 
-.scholarship-amount, 
 .scholarship-deadline {
   display: flex;
   align-items: center;
   gap: var(--spacing-2);
   color: var(--text-secondary);
   font-weight: 500;
+}
+
+.scholarship-amount {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 12px;
+    white-space: nowrap;
 }
 
 .scholarship-deadline.urgent {

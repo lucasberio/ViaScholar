@@ -7,7 +7,7 @@
   --success-color: #4CAF50;
   --warning-color: #FF9800;
   --error-color: #F44336;
-  --background-color: #F5F7FA;
+  --background-color: #rgba(255, 255, 255, 0.95);
   --card-color: #FFFFFF;
   --text-primary: #2E3440;
   --text-secondary: #6C7A89;
@@ -38,13 +38,15 @@
 }
 
 body {
+  height: 100%;
   font-family: var(--font-family);
   color: var(--text-primary);
-  background-color: var(--background-color);
+  background: rgba(255, 255, 255, 0.95);
   font-size: 14px;
   line-height: 1.5;
-}
+              backdrop-filter: blur(10px);
 
+}
 /* Chrome Extension Popup Container */
 .app-container {
   width: 800px;
@@ -54,6 +56,8 @@ body {
   flex-direction: column;
   background-color: var(--background-color);
 }
+
+
 
 /* App Header */
 .app-header {

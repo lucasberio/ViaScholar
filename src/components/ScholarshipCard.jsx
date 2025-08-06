@@ -83,13 +83,16 @@ export const ScholarshipCard = ({
       <div className="scholarship-card-header">
         <h3 className="scholarship-title">{title}</h3>
         <div className="scholarship-provider">{provider}</div>
+        <div class="scholarship-amount"><span>{formattedAmount}</span></div>
+
       </div>
       
       <div className="scholarship-details">
-        <div className="scholarship-amount">
-          <DollarSign size={18} />
+        {/* <div className="scholarship-amount">
+          <DollarSign size={18} /> 
           <span>{formattedAmount}</span>
-        </div>
+        </div> */}
+
         
         <div className={`scholarship-deadline ${isUrgent ? 'urgent' : ''}`}>
           <Calendar size={18} />
