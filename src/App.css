@@ -142,7 +142,7 @@ body {
 }
 
 .btn-primary {
-  background-color: var(--primary-blue);
+  background-color: var(--primary-blue); /* apply button */
   color: white;
 }
 
