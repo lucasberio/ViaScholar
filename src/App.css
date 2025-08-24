@@ -41,10 +41,9 @@ body {
   height: 100%;
   font-family: var(--font-family);
   color: var(--text-primary);
-  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #FF6B35, #F7931E, #FFD23F);
   font-size: 14px;
   line-height: 1.5;
-              backdrop-filter: blur(10px);
 
 }
 /* Chrome Extension Popup Container */
@@ -54,7 +53,9 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background-color: var(--background-color);
+  background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+
 }
 
 
@@ -98,6 +99,9 @@ body {
   flex: 1;
   margin-top: 60px;
   padding: var(--spacing-4);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+
 
 }
 
@@ -128,6 +132,8 @@ body {
 
 /* Button Styles */
 .btn {
+  background: linear-gradient(135deg, #D63384, #FF6B35);
+  color: white;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -151,8 +157,7 @@ body {
 }
 
 .btn-secondary {
-  background-color: white;
-  color: var(--primary-blue);
+  color: white;
   border: 1px solid var(--primary-blue);
 }
 

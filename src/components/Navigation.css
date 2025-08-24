@@ -72,14 +72,14 @@
 }
 
 .nav-link:hover {
-  background-color: rgba(30, 136, 229, 0.05);
-  color: var(--primary-blue);
+            color: #374151;
+            background: rgba(0, 0, 0, 0.02);
 }
 
 .nav-link.active {
-  background-color: rgba(30, 136, 229, 0.1);
-  color: var(--primary-blue);
-  border-bottom: 3px solid var(--primary-blue);
+  color: #D63384;
+  border-bottom-color: #D63384;
+  background: linear-gradient(to bottom, rgba(214, 51, 132, 0.05), transparent);
 }
 
 .nav-icon {

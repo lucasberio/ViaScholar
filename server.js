@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post('/feedback', async (req, res) => {
+app.post('/api/feedback', async (req, res) => {
     console.log("Received POST body:", req.body); 
   const { essay } = req.body;
 

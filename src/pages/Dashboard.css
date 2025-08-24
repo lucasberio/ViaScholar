@@ -37,7 +37,7 @@
 }
 
 .stat-icon.saved {
-  background-color: var(--primary-blue);
+  background-color: white;
 }
 
 .stat-icon.applied {
@@ -55,6 +55,7 @@
 
 .stat-label {
   font-size: 14px;
+  
   color: var(--text-secondary);
 }
 
@@ -97,6 +98,7 @@
 
 .dashboard-section {
   margin-bottom: var(--spacing-6);
+    
 }
 
 .dashboard-section-title {
