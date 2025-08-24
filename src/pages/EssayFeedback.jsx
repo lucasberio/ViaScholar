@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { MessageSquare, Save, Star, Trash2 } from 'lucide-react';
 import './EssayFeedback.css';
-import cors from 'cors';
-app.use(cors());
 
 
 export default function EssayFeedback() {
