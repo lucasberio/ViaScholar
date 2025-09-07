@@ -31,9 +31,10 @@
 }
 
 .nav-logo {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
-  color: var(--primary-blue);
+  font-family: Helvetica, Arial, sans-serif;
+  color: var(--fade-orange);
   margin: 0;
 }
 
@@ -96,3 +97,44 @@
   align-items: center;
   justify-content: center;
 }
+
+/* Ensure the header lays out brand (left), links (center), actions (right) */
+.navigation .nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* brand | links | actions */
+  gap: var(--spacing-4);
+}
+
+/* Keep the links area from squishing the action button */
+.navigation .sidebar-nav {
+  flex: 1; /* grow */
+  display: flex;
+  justify-content: center; /* center the tabs */
+}
+
+.navigation .nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* The CTA button */
+.add-scholarship-nav-btn {
+  background: linear-gradient(135deg, #FF6B35, #D63384);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--border-radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  white-space: nowrap;
+}
+
+.add-scholarship-nav-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+

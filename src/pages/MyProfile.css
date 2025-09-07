@@ -48,7 +48,7 @@
 }
 
 .profile-info-icon {
-  color: var(--primary-blue);
+  color: var(--ale-red);
   margin-right: var(--spacing-3);
   margin-top: var(--spacing-1);
 }

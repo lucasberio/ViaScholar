@@ -61,8 +61,8 @@
   gap: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-4);
   background-color: white;
-  color: var(--primary-blue);
-  border: 1px solid var(--primary-blue);
+  color: var(--ale-red);
+  border: 1px solid var(--ale-red);
   border-radius: var(--border-radius-md);
   cursor: pointer;
   /* color fade when hover */
@@ -115,7 +115,7 @@
   align-items: center;
   gap: var(--spacing-2);
   padding: var(--spacing-2) var(--spacing-4);
-  background-color: var(--primary-blue);
+  background-color: var(--ale-red);
   color: white;
   border: none;
   border-radius: var(--border-radius-md);
@@ -124,7 +124,7 @@
 }
 
 .request-feedback:hover {
-  background-color: var(--primary-blue-dark);
+  background-color: var(--fade-orange);
 }
 
 .saved-prompts {

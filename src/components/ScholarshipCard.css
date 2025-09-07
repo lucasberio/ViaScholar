@@ -162,7 +162,7 @@
 }
 
 .btn-cal:hover {
-  background-color: var(--primary-blue-dark);
+  background-color: var(--fade-orange);
 }
 
 .scholarship-card button:disabled {
