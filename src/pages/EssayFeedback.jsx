@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MessageSquare, Save, Star, Trash2 } from 'lucide-react';
 import './EssayFeedback.css';
 
+
 export default function EssayFeedback() {
   const [prompt, setPrompt] = useState('');
   const [savedPrompts, setSavedPrompts] = useState([]);
@@ -25,7 +26,7 @@ export default function EssayFeedback() {
   // get ai feedback somehow
   const requestFeedback = async () => {
     console.log('Ask AI for feedback on:', { prompt, essay });
-    const res = await fetch('http://localhost:5000/feedback', {
+    const res = await fetch('https://essay-feedback-api.onrender.com/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
