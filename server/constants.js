@@ -28,6 +28,7 @@ export const scholarship_schema = {
         items: {
           type: "object",
           properties: {
+            id: {type: "number"},
             name: { type: "string" },
             provider: { type: "string" },
             amount: { type: "string" },
@@ -44,6 +45,7 @@ export const scholarship_schema = {
             },
           },
           required: [
+            "id",
             "name",
             "provider",
             "amount",

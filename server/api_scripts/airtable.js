@@ -9,7 +9,7 @@ const table = base('Available Scholarships');
 
 export async function getRecs() {
   const allScholarships = [];
-
+  let id_num = 0;
   try {
     console.log('Starting Airtable query...');
     
@@ -30,6 +30,7 @@ export async function getRecs() {
             // });
 
             const scholarship = {
+              id: id_num,
               name: record.get('Fund Name'),
               provider: record.get('Application Process'),
               amount: record.get('Scholarship Amount'),
@@ -42,7 +43,7 @@ export async function getRecs() {
                 record.get('Geographic')
               ].filter(Boolean)
             };
-            
+            id_num += 1
             //console.log('Created scholarship object:', scholarship);
             allScholarships.push(scholarship);
           });
