@@ -1,9 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "ScholiTracker",
+  "name": "ViaScholar",
   "version": "1.0",
+  "description": "Scholarship tracking and management",
   "action": {
     "default_popup": "index.html"
   },
-  "description": "Helps students in San Antonio apply for scholarships"
+  "permissions": [
+    "storage"
+  ]
 }

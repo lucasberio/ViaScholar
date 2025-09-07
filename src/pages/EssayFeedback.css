@@ -1,8 +1,18 @@
 .essay-feedback.page {
-  padding: var(--spacing-4);
+  padding: var(--spacing-2);
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-6);
+  /*gap: var(--spacing-6);*/
+  padding-top: 80px; /* Add top padding to account for fixed nav */
+  height: 100%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+
+}
+
+.essay-feedback.page::-webkit-scrollbar {
+  display: none;
 }
 
 .essay-header {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AlertCircle, TrendingUp, Sparkles, Search } from 'lucide-react';
+import { AlertCircle, Sparkles, Search, Filter } from 'lucide-react';
 import { ScholarshipCard } from '../components/ScholarshipCard';
 import './Dashboard.css';
 
@@ -7,15 +7,16 @@ export const Dashboard = () => {
   const [savedScholarships, setSavedScholarships] = useState([]);
   const [recommendedScholarships, setRecommendedScholarships] = useState([]);
   const [upcomingDeadlines, setUpcomingDeadlines] = useState([]);
-  const [stats, setStats] = useState({ saved: 0, applied: 0, matches: 0 });
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState('all');
 
   useEffect(() => {
     // Load initial data
     const loadData = async () => {
       try {
         // Fetch scholarships data
-        const response = await fetch('../utils/data.json');
+        const response = await fetch('/utils/data.json');
         const data = await response.json();
         
         // Load saved scholarships from storage
@@ -33,12 +34,6 @@ export const Dashboard = () => {
           return diffDays > 0 && diffDays <= 30; // Show deadlines within 30 days
         });
         setUpcomingDeadlines(upcoming);
-        
-        setStats({
-          saved: saved.length,
-          applied: applied.length,
-          matches: data.length // Or your matching logic
-        });
         
         setLoading(false);
       } catch (err) {
@@ -75,9 +70,6 @@ export const Dashboard = () => {
         }))
       );
       
-      // Update stats
-      setStats(prev => ({ ...prev, saved: updatedSaved.length }));
-      
       // Persist to storage
       await saveToStorage('savedScholarships', updatedSaved);
     } catch (error) {
@@ -100,7 +92,6 @@ export const Dashboard = () => {
         if (!applied.includes(id)) {
           const updatedApplied = [...applied, id];
           await saveToStorage('appliedScholarships', updatedApplied);
-          setStats(prev => ({ ...prev, applied: updatedApplied.length }));
         }
       } else {
         console.warn('No application link found for scholarship:', id);
@@ -110,45 +101,110 @@ export const Dashboard = () => {
     }
   };
 
+  // Add filtering logic before the return statement
+  const filterScholarships = (scholarships) => {
+    return scholarships
+      .filter(sch => 
+        sch.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        sch.provider?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      .filter(sch => {
+        if (filter === 'all') return true;
+        if (filter === 'deadline-soon') {
+          const now = new Date();
+          const deadlineDate = new Date(sch.deadline);
+          const diffDays = Math.ceil((deadlineDate - now) / (1000 * 60 * 60 * 24));
+          return diffDays > 0 && diffDays <= 7;
+        }
+        if (filter === 'high-amount') {
+          return sch.amount >= 5000;
+        }
+        return true;
+      });
+  };
+
+  const filteredRecommended = filterScholarships(recommendedScholarships);
+  const filteredUpcoming = filterScholarships(upcomingDeadlines);
+
   return (
     <div className="dashboard fade-in">
-      
-      {/* Recommended Scholarships */}
+      {/* Search Container */}
+      <div className="search-container">
+        <div className="search-filter-bar">
+          <div className="search-section">
+            <Search className="search-icon" size={18} />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search scholarships..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          <div className="filter-section">
+            <Filter className="filter-icon" size={16} />
+            <select
+              className="filter-select"
+              value={filter}
+              onChange={e => setFilter(e.target.value)}
+            >
+              <option value="all">All</option>
+              <option value="deadline-soon">Due Soon</option>
+              <option value="high-amount">High Value</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      {/* Scholarship Sections */}
       <div className="dashboard-section">
-        <h3 className="dashboard-section-title">Recommended For You</h3>
+        <h3 className="dashboard-section-title">
+          <Sparkles size={16} />
+          Recommended For You
+        </h3>
         {loading ? (
           <div className="loading-indicator">Loading recommendations...</div>
         ) : (
           <div className="scholarships-list">
-            {recommendedScholarships.map(scholarship => (
-              <ScholarshipCard 
-                key={scholarship.id}
-                {...scholarship}
-                isSaved={savedScholarships.includes(scholarship.id)}
-                onSave={handleSaveScholarship}
-                onApply={handleApplyScholarship}
-              />
-            ))}
+            {filteredRecommended.length > 0 ? (
+              filteredRecommended.map(scholarship => (
+                <ScholarshipCard 
+                  key={scholarship.id}
+                  {...scholarship}
+                  isSaved={savedScholarships.includes(scholarship.id)}
+                  onSave={handleSaveScholarship}
+                  onApply={handleApplyScholarship}
+                />
+              ))
+            ) : (
+              <div className="loading-indicator">No scholarships found matching your criteria.</div>
+            )}
           </div>
         )}
       </div>
 
-      {/* Upcoming Deadlines */}
       <div className="dashboard-section">
-        <h3 className="dashboard-section-title">Upcoming Deadlines</h3>
+        <h3 className="dashboard-section-title">
+          <AlertCircle size={16} />
+          Upcoming Deadlines
+        </h3>
         {loading ? (
           <div className="loading-indicator">Loading deadlines...</div>
         ) : (
           <div className="scholarships-list">
-            {upcomingDeadlines.map(scholarship => (
-              <ScholarshipCard 
-                key={scholarship.id}
-                {...scholarship}
-                isSaved={savedScholarships.includes(scholarship.id)}
-                onSave={(id) => handleSaveScholarship(id, savedScholarships.includes(id))}
-                onApply={handleApplyScholarship}
-              />
-            ))}
+            {filteredUpcoming.length > 0 ? (
+              filteredUpcoming.map(scholarship => (
+                <ScholarshipCard 
+                  key={scholarship.id}
+                  {...scholarship}
+                  isSaved={savedScholarships.includes(scholarship.id)}
+                  onSave={handleSaveScholarship}
+                  onApply={handleApplyScholarship}
+                />
+              ))
+            ) : (
+              <div className="loading-indicator">No upcoming deadlines found.</div>
+            )}
           </div>
         )}
       </div>

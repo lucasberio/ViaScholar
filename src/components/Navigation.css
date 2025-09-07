@@ -10,10 +10,10 @@
 
 /* Container for both brand and links */
 .nav-container {
-  display: flex;               
-  align-items: center;         
-  justify-content: space-between; 
-  padding: var(--spacing-2) var(--spacing-4);
+  display: flex;
+  flex-direction: column; /* Stack logo and nav vertically */
+  width: 100%;
+  padding: var(--spacing-2) 0; /* Remove horizontal padding */
 }
 
 /* Brand area (logo + title) */
@@ -22,6 +22,7 @@
   align-items: center;
   gap: var(--spacing-2);
   margin-bottom: var(--spacing-2);
+  padding: 0 var(--spacing-4); /* Add horizontal padding */
 }
 
 .nav-logo-icon {
@@ -40,7 +41,14 @@
 .sidebar-nav {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; /* Change from center to flex-start */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  -ms-overflow-style: none; /* Hide scrollbar in IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar in Firefox */
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar but keep functionality */
 }
 
 .nav-list {
@@ -48,7 +56,8 @@
   gap: var(--spacing-4);
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 var(--spacing-4); /* Add horizontal padding */
+  white-space: nowrap; /* Prevent wrapping */
 }
 
 .nav-item {
@@ -72,13 +81,13 @@
 }
 
 .nav-link:hover {
-            color: #374151;
-            background: rgba(0, 0, 0, 0.02);
+  color: #374151;
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .nav-link.active {
-  color: #D63384;
-  border-bottom-color: #D63384;
+  color: #d63384;
+  border-bottom-color: #d63384;
   background: linear-gradient(to bottom, rgba(214, 51, 132, 0.05), transparent);
 }
 

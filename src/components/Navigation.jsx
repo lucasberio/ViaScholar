@@ -14,10 +14,10 @@ import './Navigation.css';
 export const Navigation = ({ activePage, setActivePage }) => {
   const navItems = [
     { id: 'Dashboard',           label: 'Dashboard', icon: <LayoutDashboard size={20} /> },
-    { id: 'MyProfile',           label: 'Profile',   icon: <User            size={20} /> },
     { id: 'SavedScholarships',   label: 'Saved',     icon: <BookmarkCheck   size={20} /> },
     { id: 'AppliedScholarships', label: 'Applied',   icon: <ClipboardCheck  size={20} /> },
     { id: 'EssayFeedback',       label: 'Feedback',  icon: <MessageSquare   size={20} /> },
+    { id: 'MyProfile',           label: 'Profile',   icon: <User            size={20} /> },
     { id: 'CustomScholarships',  label: 'Custom',    icon: <Wrench          size={20} /> },
   ];
 

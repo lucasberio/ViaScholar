@@ -27,7 +27,8 @@ export const saveToStorage = (key, value) => {
 export const getFromStorage = (key) => {
   return new Promise((resolve, reject) => {
     try {
-      chrome.storage.sync.get([key], (result) => {
+      chrome.
+      storage.sync.get([key], (result) => {
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         } else {
